@@ -7,9 +7,9 @@ const Unchecked = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredTeams, setFilteredTeams] = useState([]);
   const [teams, setTeams] = useState([]);
-  const [sortConfig, setSortConfig] = useState({ 
-    key: null, 
-    direction: 'ascending' 
+  const [sortConfig, setSortConfig] = useState({
+    key: null,
+    direction: 'ascending'
   });
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const Unchecked = () => {
   };
 
   const handleCheckStatusUpdate = (teamId, currentCheckedInStatus) => {
-    const apiRoute = currentCheckedInStatus 
+    const apiRoute = currentCheckedInStatus
       ? `http://localhost:5000/api/checkout/${teamId}`
       : `http://localhost:5000/api/registrations/checkin/${teamId}`;
 
@@ -63,14 +63,14 @@ const Unchecked = () => {
     if (sortConfig.key === key) {
       const direction = sortConfig.direction === 'ascending' ? 'descending' : 'ascending';
       setSortConfig({ key, direction });
-    } 
+    }
     // If clicking a new column, set to ascending
     else {
       setSortConfig({ key, direction: 'ascending' });
     }
 
     const sortedTeams = [...filteredTeams].sort((a, b) => {
-      switch(key) {
+      switch (key) {
         case 'teamName':
           return sortConfig.direction === 'ascending'
             ? a.teamName.localeCompare(b.teamName)
@@ -105,13 +105,13 @@ const Unchecked = () => {
 
   return (
     <motion.div
-      className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700 mb-8"
+      className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg mx-auto overflow-y-auto scrollbar-hide rounded-xl p-6 border w-[60%] border-gray-700 my-8"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}
     >
       <div className="flex justify-between items-center mb-6">
-        <h2 
+        <h2
           className="text-xl font-semibold text-gray-100 cursor-pointer hover:text-gray-300"
           onClick={handleResetSort}
         >
@@ -133,54 +133,54 @@ const Unchecked = () => {
         <table className="min-w-full divide-y divide-gray-700">
           <thead>
             <tr>
-              <th 
+              <th
                 className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-700"
                 onClick={() => handleSort('teamName')}
               >
                 <div className="flex items-center">
                   Team Name
                   {sortConfig.key === 'teamName' && (
-                    sortConfig.direction === 'ascending' 
-                      ? <ArrowUp size={14} className="ml-2" /> 
+                    sortConfig.direction === 'ascending'
+                      ? <ArrowUp size={14} className="ml-2" />
                       : <ArrowDown size={14} className="ml-2" />
                   )}
                 </div>
               </th>
-              <th 
+              <th
                 className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-700"
                 onClick={() => handleSort('teamLeader')}
               >
                 <div className="flex items-center">
                   Team Leader
                   {sortConfig.key === 'teamLeader' && (
-                    sortConfig.direction === 'ascending' 
-                      ? <ArrowUp size={14} className="ml-2" /> 
+                    sortConfig.direction === 'ascending'
+                      ? <ArrowUp size={14} className="ml-2" />
                       : <ArrowDown size={14} className="ml-2" />
                   )}
                 </div>
               </th>
-              <th 
+              <th
                 className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-700"
                 onClick={() => handleSort('teamMembers')}
               >
                 <div className="flex items-center">
                   Members
                   {sortConfig.key === 'teamMembers' && (
-                    sortConfig.direction === 'ascending' 
-                      ? <ArrowUp size={14} className="ml-2" /> 
+                    sortConfig.direction === 'ascending'
+                      ? <ArrowUp size={14} className="ml-2" />
                       : <ArrowDown size={14} className="ml-2" />
                   )}
                 </div>
               </th>
-              <th 
+              <th
                 className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-700"
                 onClick={() => handleSort('isCheckedin')}
               >
                 <div className="flex items-center">
                   Checked In
                   {sortConfig.key === 'isCheckedin' && (
-                    sortConfig.direction === 'ascending' 
-                      ? <ArrowUp size={14} className="ml-2" /> 
+                    sortConfig.direction === 'ascending'
+                      ? <ArrowUp size={14} className="ml-2" />
                       : <ArrowDown size={14} className="ml-2" />
                   )}
                 </div>
@@ -209,9 +209,9 @@ const Unchecked = () => {
                 </td>
 
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                  <input 
-                    type="checkbox" 
-                    checked={team.isCheckedin} 
+                  <input
+                    type="checkbox"
+                    checked={team.isCheckedin}
                     onChange={() => handleCheckStatusUpdate(team._id, team.isCheckedin)}
                     className="form-checkbox h-5 w-5 text-blue-600"
                   />
