@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+
 import { motion } from "framer-motion";
 import { Users } from "lucide-react";
+import { axiosInstance } from "../../utils/axios";
 
 const StatCard = () => {
   const [teamCount, setTeamCount] = useState(0);
@@ -9,7 +10,7 @@ const StatCard = () => {
   useEffect(() => {
     const fetchRegistrations = async () => {
       try {
-        const response = await axios.get("https://bharat-techx.vercel.app/api/registrations");
+        const response = await axiosInstance.get("/registrations");
         if (Array.isArray(response.data)) {
           setTeamCount(response.data.length);
         }

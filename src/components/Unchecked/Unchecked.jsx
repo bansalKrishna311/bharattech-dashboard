@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Search, ArrowUp, ArrowDown } from "lucide-react";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { axiosInstance } from "../../utils/axios";
 
 const Unchecked = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -16,33 +16,27 @@ const Unchecked = () => {
     fetchTeams();
   }, []);
 
-  const fetchTeams = () => {
-    axios
-      .get("https://bharat-techx.vercel.app/api/Unchecked-registrations")
-      .then((response) => {
-        setTeams(response.data.uncheckedTeams);
-        setFilteredTeams(response.data.uncheckedTeams);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-      });
+  const fetchTeams = async () => {
+    try {
+      const response = await axiosInstance.get("/Unchecked-registrations");
+      setTeams(response.data.uncheckedTeams);
+      setFilteredTeams(response.data.uncheckedTeams);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
   };
 
-  const handleCheckStatusUpdate = (teamId, currentCheckedInStatus) => {
+  const handleCheckStatusUpdate = async (teamId, currentCheckedInStatus) => {
+    try {
+      const apiRoute = currentCheckedInStatus 
+        ? `/checkout/${teamId}`
+        : `/registrations/checkin/${teamId}`;
 
-    const apiRoute = currentCheckedInStatus 
-
-      ? `https://bharat-techx.vercel.app/api/checkout/${teamId}`
-      : `https://bharat-techx.vercel.app/api/registrations/checkin/${teamId}`;
-
-    axios
-      .put(apiRoute)
-      .then(() => {
-        fetchTeams();
-      })
-      .catch((error) => {
-        console.error("Error updating check-in status: ", error);
-      });
+      await axiosInstance.put(apiRoute);
+      await fetchTeams();
+    } catch (error) {
+      console.error("Error updating check-in status: ", error);
+    }
   };
 
   const handleSearch = (e) => {
@@ -61,13 +55,10 @@ const Unchecked = () => {
   };
 
   const handleSort = (key) => {
-    // If clicking the same column, toggle direction
     if (sortConfig.key === key) {
       const direction = sortConfig.direction === 'ascending' ? 'descending' : 'ascending';
       setSortConfig({ key, direction });
-    }
-    // If clicking a new column, set to ascending
-    else {
+    } else {
       setSortConfig({ key, direction: 'ascending' });
     }
 
@@ -100,7 +91,6 @@ const Unchecked = () => {
   };
 
   const handleResetSort = () => {
-    // Reset to original data without sorting
     setFilteredTeams(teams);
     setSortConfig({ key: null, direction: 'ascending' });
   };

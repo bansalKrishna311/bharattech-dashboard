@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { Search, ArrowUp, ArrowDown } from "lucide-react";
 import { useState, useEffect } from "react";
-import axios from "axios";
+
 import '../checked/Checked.css';
+import { axiosInstance } from "../../utils/axios";
 
 const Checked = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,34 +18,28 @@ const Checked = () => {
     fetchCheckedInTeams();
   }, []);
 
-  const fetchCheckedInTeams = () => {
-    axios
-      .get("https://bharat-techx.vercel.app/api/Checked-registrations")
-      .then((response) => {
-        const checkedInTeams = response.data.checkedInTeams || [];
-        setTeams(checkedInTeams);
-        setFilteredTeams(checkedInTeams);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-      });
+  const fetchCheckedInTeams = async () => {
+    try {
+      const response = await axiosInstance.get("/Checked-registrations");
+      const checkedInTeams = response.data.checkedInTeams || [];
+      setTeams(checkedInTeams);
+      setFilteredTeams(checkedInTeams);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
   };
 
-  const handleCheckStatusUpdate = (teamId, currentCheckedInStatus) => {
+  const handleCheckStatusUpdate = async (teamId, currentCheckedInStatus) => {
+    try {
+      const apiRoute = currentCheckedInStatus 
+        ? `/checkout/${teamId}`
+        : `/registrations/checkin/${teamId}`;
 
-    const apiRoute = currentCheckedInStatus 
-
-      ? `https://bharat-techx.vercel.app/api/checkout/${teamId}`
-      : `https://bharat-techx.vercel.app/api/registrations/checkin/${teamId}`;
-
-    axios
-      .put(apiRoute)
-      .then(() => {
-        fetchCheckedInTeams();
-      })
-      .catch((error) => {
-        console.error("Error updating check-in status: ", error);
-      });
+      await axiosInstance.put(apiRoute);
+      await fetchCheckedInTeams();
+    } catch (error) {
+      console.error("Error updating check-in status: ", error);
+    }
   };
 
   const handleSearch = (e) => {
@@ -63,13 +58,10 @@ const Checked = () => {
   };
 
   const handleSort = (key) => {
-    // If clicking the same column, toggle direction
     if (sortConfig.key === key) {
       const direction = sortConfig.direction === 'ascending' ? 'descending' : 'ascending';
       setSortConfig({ key, direction });
-    }
-    // If clicking a new column, set to ascending
-    else {
+    } else {
       setSortConfig({ key, direction: 'ascending' });
     }
 
@@ -102,7 +94,6 @@ const Checked = () => {
   };
 
   const handleResetSort = () => {
-    // Reset to original data without sorting
     setFilteredTeams(teams);
     setSortConfig({ key: null, direction: 'ascending' });
   };
@@ -114,7 +105,6 @@ const Checked = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}
     >
-
       <div className="flex justify-between items-center mb-6">
         <h2
           className="text-xl font-semibold text-gray-100 cursor-pointer hover:text-gray-300"
@@ -204,15 +194,12 @@ const Checked = () => {
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100">
                   {team.teamName}
                 </td>
-
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                   {team.teamLeader.name}
                 </td>
-
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                   {team.teamMembers.map((member) => member.name).join(", ")}
                 </td>
-
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                   <input
                     type="checkbox"
@@ -231,5 +218,3 @@ const Checked = () => {
 };
 
 export default Checked;
-
-

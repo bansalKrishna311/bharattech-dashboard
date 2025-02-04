@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+
 import { motion } from "framer-motion";
 import { Users } from "lucide-react";
+import { axiosInstance } from "../../utils/axios";
 
 const Checkstat = () => {
   const [teamCount, setTeamCount] = useState(0);
@@ -9,7 +10,7 @@ const Checkstat = () => {
   useEffect(() => {
     const fetchRegistrations = async () => {
       try {
-        const response = await axios.get("https://bharat-techx.vercel.app/api/Unchecked-registrations");
+        const response = await axiosInstance.get("/Unchecked-registrations");
         if (response.data && Array.isArray(response.data.uncheckedTeams)) {
           setTeamCount(response.data.uncheckedTeams.length);
         } else {
