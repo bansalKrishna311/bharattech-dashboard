@@ -9,7 +9,7 @@ const StatCard = () => {
   useEffect(() => {
     const fetchRegistrations = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/registrations");
+        const response = await axios.get("https://bharat-techx.vercel.app/api/registrations");
         if (Array.isArray(response.data)) {
           setTeamCount(response.data.length);
         }
