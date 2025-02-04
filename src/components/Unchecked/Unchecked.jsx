@@ -29,7 +29,9 @@ const Unchecked = () => {
   };
 
   const handleCheckStatusUpdate = (teamId, currentCheckedInStatus) => {
-    const apiRoute = currentCheckedInStatus
+
+    const apiRoute = currentCheckedInStatus 
+
       ? `https://bharat-techx.vercel.app/api/checkout/${teamId}`
       : `https://bharat-techx.vercel.app/api/registrations/checkin/${teamId}`;
 
