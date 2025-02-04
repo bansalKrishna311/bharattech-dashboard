@@ -9,7 +9,7 @@ const Unchecked = () => {
   useEffect(() => {
     const fetchRegistrations = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/checked-registrations");
+        const response = await axios.get("https://bharat-techx.vercel.app/api/checked-registrations");
         if (response.data && Array.isArray(response.data.checkedInTeams)) {
           setTeamCount(response.data.checkedInTeams.length);
         } else {

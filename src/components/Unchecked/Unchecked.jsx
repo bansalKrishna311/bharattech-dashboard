@@ -18,7 +18,7 @@ const Unchecked = () => {
 
   const fetchTeams = () => {
     axios
-      .get("http://localhost:5000/api/Unchecked-registrations")
+      .get("https://bharat-techx.vercel.app/api/Unchecked-registrations")
       .then((response) => {
         setTeams(response.data.uncheckedTeams);
         setFilteredTeams(response.data.uncheckedTeams);
@@ -30,8 +30,8 @@ const Unchecked = () => {
 
   const handleCheckStatusUpdate = (teamId, currentCheckedInStatus) => {
     const apiRoute = currentCheckedInStatus
-      ? `http://localhost:5000/api/checkout/${teamId}`
-      : `http://localhost:5000/api/registrations/checkin/${teamId}`;
+      ? `https://bharat-techx.vercel.app/api/checkout/${teamId}`
+      : `https://bharat-techx.vercel.app/api/registrations/checkin/${teamId}`;
 
     axios
       .put(apiRoute)

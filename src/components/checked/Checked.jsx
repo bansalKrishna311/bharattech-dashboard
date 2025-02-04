@@ -19,7 +19,7 @@ const Checked = () => {
 
   const fetchCheckedInTeams = () => {
     axios
-      .get("http://localhost:5000/api/Checked-registrations")
+      .get("https://bharat-techx.vercel.app/api/Checked-registrations")
       .then((response) => {
         const checkedInTeams = response.data.checkedInTeams || [];
         setTeams(checkedInTeams);
@@ -32,8 +32,8 @@ const Checked = () => {
 
   const handleCheckStatusUpdate = (teamId, currentCheckedInStatus) => {
     const apiRoute = currentCheckedInStatus
-      ? `http://localhost:5000/api/checkout/${teamId}`
-      : `http://localhost:5000/api/registrations/checkin/${teamId}`;
+      ? `https://bharat-techx.vercel.app/api/checkout/${teamId}`
+      : `https://bharat-techx.vercel.app/api/registrations/checkin/${teamId}`;
 
     axios
       .put(apiRoute)
