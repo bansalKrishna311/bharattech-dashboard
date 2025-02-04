@@ -4,7 +4,8 @@ import Header from "../components/common/Header"
 import StatCard from "../components/common/StatCard";
 import ProductsTable from "../components/products/ProductsTable";
 
-import { AlertTriangle, DollarSign, Package, TrendingUp } from "lucide-react";
+import Checkstat from "../components/common/UnCheckstat";
+import Unchecked from "../components/common/Unchcked";
 
 
 const ProductsPage = () => {
@@ -20,10 +21,9 @@ const ProductsPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          <StatCard name='Total Products' icon={Package} value={1234} color='#6366F1' />
-          <StatCard name='Top Selling' icon={TrendingUp} value={89} color='#10B981' />
-          <StatCard name='Low Stock' icon={AlertTriangle} value={23} color='#F59E0B' />
-          <StatCard name='Total Revenue' icon={DollarSign} value={"$543,210"} color='#EF4444' />
+          <StatCard />
+         <Checkstat />
+         <Unchecked />
         </motion.div>
 
         <ProductsTable />

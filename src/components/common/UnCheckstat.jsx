@@ -3,15 +3,17 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import { Users } from "lucide-react";
 
-const StatCard = () => {
+const Checkstat = () => {
   const [teamCount, setTeamCount] = useState(0);
 
   useEffect(() => {
     const fetchRegistrations = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/registrations");
-        if (Array.isArray(response.data)) {
-          setTeamCount(response.data.length);
+        const response = await axios.get("http://localhost:5000/api/Unchecked-registrations");
+        if (response.data && Array.isArray(response.data.uncheckedTeams)) {
+          setTeamCount(response.data.uncheckedTeams.length);
+        } else {
+          console.warn("Unexpected API response format:", response.data);
         }
       } catch (error) {
         console.error("Error fetching registrations:", error);
@@ -29,7 +31,7 @@ const StatCard = () => {
       <div className="px-4 py-5 sm:p-6">
         <span className="flex items-center text-sm font-medium text-gray-400">
           <Users size={20} className="mr-2 text-blue-400" />
-          Total Teams
+          Total Unchecked Teams
         </span>
         <p className="mt-1 text-3xl font-semibold text-gray-100">{teamCount}</p>
       </div>
@@ -37,4 +39,4 @@ const StatCard = () => {
   );
 };
 
-export default StatCard;
+export default Checkstat;
