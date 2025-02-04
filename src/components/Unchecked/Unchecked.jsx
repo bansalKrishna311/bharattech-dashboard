@@ -20,8 +20,8 @@ const Unchecked = () => {
     axios
       .get("http://localhost:5000/api/Unchecked-registrations")
       .then((response) => {
-        setTeams(response.data);
-        setFilteredTeams(response.data);
+        setTeams(response.data.uncheckedTeams);
+        setFilteredTeams(response.data.uncheckedTeams);
       })
       .catch((error) => {
         console.error("Error fetching data: ", error);
